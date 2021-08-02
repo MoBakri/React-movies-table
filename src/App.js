@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import AppItems from "./AppItems";
+import { info } from "./info";
+class App extends Component {
+  constructor() {
+    super();
+    this.state = { info: info, members: [], count: 0 };
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+  clickHander = () => {
+    if (this.state.count < this.state.info.length) {
+      this.state.members.push(this.state.info[this.state.count]);
+      this.setState({
+        count: this.state.count + 1,
+      });
+
+      this.newMember = this.state.members.map((member) => (
+        <AppItems
+          name={member.name}
+          key={member.id}
+          img={member.img}
+          Phone={member.Phone}
+          gender={member.gender}
+          website={member.website}
+        />
+      ));
+    }
+  };
+  visb() {
+    if (this.state.info.length > this.state.count) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
+  }
+  render() {
+    return (
+      <div className="container">
+        <button
+          className="btn btn-success"
+          style={{ visibility: this.visb() }}
+          onClick={this.clickHander}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          Add Profile
+        </button>
+        <div className="row">{this.newMember}</div>
+      </div>
+    );
+  }
 }
-
 export default App;

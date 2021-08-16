@@ -1,0 +1,21 @@
+.itemCal {
+  border: 1px solid rgb(210, 230, 100);
+  display: inline-block;
+  padding: 5px;
+  background-color: beige;
+  color: rgb(233, 50, 50);
+  width: 50px;
+  text-align: center;
+}
+.itemCal:hover {
+  background-color: rgb(233, 233, 221);
+  cursor: pointer;
+  color: brown;
+}
+.display-content {
+  width: 200px;
+  height: 100px;
+  background-color: cornflowerblue;
+  color: white;
+  font-size: 3em;
+}

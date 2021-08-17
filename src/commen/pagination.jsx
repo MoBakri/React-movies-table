@@ -16,7 +16,14 @@ const Pagination = (props) => {
             className={currentPage === p ? "page-item active" : "page-item"}
           >
             {/* eslint-disable-next-line*/}
-            <a className="page-link">{p}</a>
+            <a
+              className="page-link"
+              style={{
+                visibility: pageItemCount <= pageNum ? "hidden" : "visible",
+              }}
+            >
+              {p}
+            </a>
           </li>
         ))}
       </ul>

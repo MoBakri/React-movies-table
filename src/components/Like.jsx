@@ -8,11 +8,16 @@ class Like extends Component {
     }
   }
   render() {
+    const bgHeard = "rgb(214, 0, 0)";
+    const { like } = this.props;
     return (
       <i
         className={this.heart()}
         onClick={() => this.props.liked(this.props.like)}
-        style={{ cursor: "pointer" }}
+        style={{
+          cursor: "pointer",
+          color: like.like === true ? bgHeard : null,
+        }}
         aria-hidden="true"
       ></i>
     );

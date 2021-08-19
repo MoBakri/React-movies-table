@@ -5,12 +5,14 @@ import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "../commen/moviesTable";
 import { Paginate } from "../utils/paginate";
 import Listgroup from "../commen/listGroup";
+import _ from "lodash";
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: "title", order: "asc" },
   };
   componentDidMount() {
     this.setState({
@@ -25,7 +27,6 @@ class Movies extends Component {
     movies[index].like = !liked.like;
     this.setState({ movies });
   };
-
   deleteHandler = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
@@ -36,7 +37,16 @@ class Movies extends Component {
   onGenres = (genre) => {
     this.setState({ selectedItem: genre, currentPage: 1 });
   };
-
+  onSortColumn = (path) => {
+    const sortColumn = { ...this.state.sortColumn };
+    if (sortColumn.path === path) {
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    } else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
+    }
+    this.setState({ sortColumn });
+  };
   render() {
     const stl = { backgroundColor: "gray", color: "white" };
     const {
@@ -44,6 +54,7 @@ class Movies extends Component {
       currentPage,
       pageSize,
       selectedItem,
+      sortColumn,
     } = this.state;
 
     const filterd =
@@ -51,7 +62,9 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre._id === selectedItem._id)
         : allMovies;
 
-    const movies = Paginate(filterd, currentPage, pageSize);
+    const sorted = _.orderBy(filterd, [sortColumn.path], [sortColumn.order]);
+
+    const movies = Paginate(sorted, currentPage, pageSize);
 
     const { length: count } = movies;
 
@@ -79,6 +92,7 @@ class Movies extends Component {
               movies={movies}
               onLike={this.onLike}
               deleteHandler={this.deleteHandler}
+              onSortColumn={this.onSortColumn}
             />
             <Pagination
               pageNum={this.state.pageSize}

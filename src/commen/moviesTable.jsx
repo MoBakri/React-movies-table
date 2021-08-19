@@ -3,6 +3,16 @@ import Like from "../components/Like";
 import SortHeadingTable from "./SortHeadingTable";
 
 class MoviesTable extends Component {
+  onSortItem = (path) => {
+    const sortColumn = { ...this.props.sortColumn };
+    if (sortColumn.path === path) {
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    } else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
+    }
+    this.props.onSortColumn(sortColumn);
+  };
   render() {
     const column = [
       { label: "Title", path: "title" },
@@ -12,11 +22,11 @@ class MoviesTable extends Component {
       { path: "like" },
       { path: "delete" },
     ];
-    const { movies, onLike, deleteHandler, onSortColumn } = this.props;
+    const { movies, onLike, deleteHandler } = this.props;
     return (
       <table className="table">
         <thead>
-          <SortHeadingTable sortHeaderItems={column} onSort={onSortColumn} />
+          <SortHeadingTable sortHeaderItems={column} onSort={this.onSortItem} />
         </thead>
         <tbody>
           {movies.map((movie) => (

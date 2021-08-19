@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Like from "../components/Like";
 import SortHeadingTable from "./SortHeadingTable";
+import TableBody from "./tableBody";
 
 class MoviesTable extends Component {
   onSortItem = (path) => {
@@ -19,16 +20,34 @@ class MoviesTable extends Component {
       { label: "Genre", path: "genre.name" },
       { label: "Stock", path: "numberInStock" },
       { label: "Rate", path: "dailyRentalRate" },
-      { path: "like" },
-      { path: "delete" },
+      {
+        key: "like",
+        content: (movie) => <Like like={movie} liked={this.props.onLike} />,
+      },
+      {
+        key: "delete",
+        content: (movie) => (
+          <button
+            onClick={() => this.props.deleteHandler(movie)}
+            className="btn btn-danger btn-sm"
+          >
+            x
+          </button>
+        ),
+      },
     ];
-    const { movies, onLike, deleteHandler } = this.props;
+    const { movies, sortColumn } = this.props;
     return (
       <table className="table">
         <thead>
-          <SortHeadingTable sortHeaderItems={column} onSort={this.onSortItem} />
+          <SortHeadingTable
+            sortHeaderItems={column}
+            sortColumn={sortColumn}
+            onSort={this.onSortItem}
+          />
         </thead>
-        <tbody>
+        <TableBody data={movies} column={column} />
+        {/* <tbody>
           {movies.map((movie) => (
             <tr key={movie._id}>
               <td>{movie.title}</td>
@@ -36,19 +55,19 @@ class MoviesTable extends Component {
               <td>{movie.numberInStock}</td>
               <td>{movie.dailyRentalRate}</td>
               <td>
-                <Like like={movie} liked={onLike} />
+                <Like like={movie} liked={this.props.onLike} />
               </td>
               <td>
-                <button
-                  onClick={() => deleteHandler(movie)}
-                  className="btn btn-danger btn-sm"
+               <button
+                onClick={() => this.props.deleteHandler(movie)}
+                className="btn btn-danger btn-sm"
                 >
-                  x
-                </button>
+            x
+          </button>
               </td>
             </tr>
           ))}
-        </tbody>
+        </tbody> */}
       </table>
     );
   }

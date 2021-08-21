@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Calculators from "./components/calculators";
 import NavBar from "./components/navBar";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +27,7 @@ class App extends Component {
   }
 
   handleIncrement = (count) => {
-    const counters = [...this.state.counter]; // copy from the origenal array
+    const counters = [...this.state.counter]; //copy from the origenal array
     let index = counters.indexOf(count); //
     counters[index] = { ...count }; //
     counters[index].value++;

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import Like from "../components/Like";
 import SortHeadingTable from "./SortHeadingTable";
 import TableBody from "./tableBody";
-
+import Like from "../components/Like";
 class MoviesTable extends Component {
   onSortItem = (path) => {
     const sortColumn = { ...this.props.sortColumn };
@@ -47,27 +46,6 @@ class MoviesTable extends Component {
           />
         </thead>
         <TableBody data={movies} column={column} />
-        {/* <tbody>
-          {movies.map((movie) => (
-            <tr key={movie._id}>
-              <td>{movie.title}</td>
-              <td>{movie.genre.name}</td>
-              <td>{movie.numberInStock}</td>
-              <td>{movie.dailyRentalRate}</td>
-              <td>
-                <Like like={movie} liked={this.props.onLike} />
-              </td>
-              <td>
-               <button
-                onClick={() => this.props.deleteHandler(movie)}
-                className="btn btn-danger btn-sm"
-                >
-            x
-          </button>
-              </td>
-            </tr>
-          ))}
-        </tbody> */}
       </table>
     );
   }

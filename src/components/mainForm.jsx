@@ -1,6 +1,7 @@
 import { Component } from "react";
+import InputField from "./inputField";
+import SelectField from "./selectField";
 import Joi from "joi-browser";
-import Input from "./input";
 class MainForm extends Component {
   state = { data: {}, errors: {} };
   validate() {
@@ -38,7 +39,7 @@ class MainForm extends Component {
   inputField(name, label, type = "text") {
     const { data, errors } = this.state;
     return (
-      <Input
+      <InputField
         data={data[name]}
         handleChange={this.handleChange}
         name={name}
@@ -53,10 +54,23 @@ class MainForm extends Component {
       <button
         disabled={this.validate()}
         type="submit"
-        className="btn btn-primary"
+        className="btn btn-primary mt-3"
       >
         {label}
       </button>
+    );
+  }
+  selectField(name, label, option) {
+    const { data, errors } = this.state;
+    return (
+      <SelectField
+        name={name}
+        label={label}
+        data={data}
+        option={option}
+        errors={errors[name]}
+        handleChange={this.handleChange}
+      />
     );
   }
 }

@@ -5,9 +5,9 @@ import Movies from "./components/movie";
 import Customer from "./routing/customer";
 import Market from "./routing/market";
 import Notfound from "./routing/not-found";
-import MovieId from "./routing/movieId";
 import Login from "./components/login";
 import Register from "./components/register";
+import NewTable from "./components/newTable";
 const App = () => {
   return (
     <div>
@@ -18,12 +18,13 @@ const App = () => {
           <Route path="/register" component={Register} />
           <Route
             path="/movies/:id"
-            render={(props) => <MovieId {...props} />}
+            render={(props) => <NewTable {...props} />}
           />
-          <Route path="/movies" exact component={Movies} />
-          <Route path="/not-found" component={Notfound} />
+          <Route path="/movies" component={Movies} />
           <Route path="/customer" component={Customer} />
           <Route path="/market" component={Market} />
+          <Route path="/" exact component={Movies} />
+          <Route path="/not-found" component={Notfound} />
           <Redirect to="/not-found" />
         </Switch>
       </div>

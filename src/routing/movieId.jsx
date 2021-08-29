@@ -3,7 +3,7 @@ import React from "react";
 const MovieId = ({ match, history }) => {
   return (
     <div>
-      <h1> id : {match.params.id}</h1>
+      <div>{match.params.id}</div>
       <button
         className="btn btn-primary"
         onClick={() => history.push("/movies")}

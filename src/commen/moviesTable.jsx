@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import SortHeadingTable from "./SortHeadingTable";
 import TableBody from "./tableBody";
 import Like from "../components/Like";
+import { Link } from "react-router-dom";
+
 class MoviesTable extends Component {
   onSortItem = (path) => {
     const sortColumn = { ...this.props.sortColumn };
@@ -15,7 +17,13 @@ class MoviesTable extends Component {
   };
   render() {
     const column = [
-      { label: "Title", path: "title" },
+      {
+        label: "Title",
+        path: "title",
+        content: (movie) => (
+          <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+        ),
+      },
       { label: "Genre", path: "genre.name" },
       { label: "Stock", path: "numberInStock" },
       { label: "Rate", path: "dailyRentalRate" },

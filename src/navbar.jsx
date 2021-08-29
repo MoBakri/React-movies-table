@@ -1,12 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      {/*eslint-disable*/}
-      <NavLink to="/home" className="navbar-brand">
+      <Link to="/movies" className="navbar-brand">
         MoBarki
-      </NavLink>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"

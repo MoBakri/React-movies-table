@@ -4,6 +4,7 @@ import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "../commen/moviesTable";
 import { Paginate } from "../utils/paginate";
+import { Link } from "react-router-dom";
 import Listgroup from "../commen/listGroup";
 import _ from "lodash";
 class Movies extends Component {
@@ -49,7 +50,6 @@ class Movies extends Component {
       selectedItem,
       sortColumn,
     } = this.state;
-
     const filterd =
       selectedItem && selectedItem._id
         ? allMovies.filter((m) => m.genre._id === selectedItem._id)
@@ -81,6 +81,9 @@ class Movies extends Component {
             />
           </div>
           <div className="col-sm">
+            <Link to="./movies/new" className="btn btn-primary m-2">
+              add movie
+            </Link>
             <MoviesTable
               movies={movies}
               onLike={this.onLike}

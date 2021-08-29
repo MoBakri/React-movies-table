@@ -1,7 +1,7 @@
 import React from "react";
 
 const inputField = (props) => {
-  const { data, handleChange, name, label, errors, type } = props;
+  const { value, handleChange, name, label, errors, type } = props;
   return (
     <div className="from-group">
       <label htmlFor={name}>{label}</label>
@@ -10,7 +10,7 @@ const inputField = (props) => {
         id={name}
         onChange={handleChange}
         name={name}
-        value={data.username}
+        value={value}
         className="form-control"
       />
 

@@ -1,19 +1,34 @@
 import React from "react";
-import MainForm from "./mainForm";
 import { getMovie, saveMovie } from "../services/fakeMovieService";
 import { getGenres } from "./../services/fakeGenreService";
+import MainForm from "./mainForm";
 import Joi from "joi-browser";
 class NewTable extends MainForm {
-  state = {
-    data: {
-      title: "",
-      genreId: "",
-      numberInStock: "",
-      dailyRentalRate: "",
-    },
-    genre: [],
-    errors: {},
-  };
+  constructor() {
+    super();
+    this.state = {
+      data: {
+        title: "",
+        genreId: "",
+        numberInStock: "",
+        dailyRentalRate: "",
+      },
+      genre: [],
+      errors: {},
+    };
+  }
+
+  // username = React.createRef();
+
+  // componentDidMount(){
+  //   this.username.current.value = "cool";
+  // }
+  // <input
+  //   value={this.username.value}
+  //   className="form-control"
+  //   ref={this.username}
+  // />
+
   componentDidMount() {
     const genre = getGenres();
     this.setState({ genre });
@@ -23,22 +38,24 @@ class NewTable extends MainForm {
 
     const movie = getMovie(movieId);
     if (!movie) return this.props.history.replace("/not-found");
+
     this.setState({ data: this.viewData(movie) });
   }
   viewData(movie) {
     return {
-      id: movie._id,
       title: movie.title,
       genreId: movie.genre._id,
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
     };
   }
+
   schema = {
+    id: Joi.string(),
     title: Joi.string().label("Title").required(),
     genreId: Joi.string().label("Genre").required(),
-    numberInStock: Joi.number().less(100).label("Stock").required(),
-    dailyRentalRate: Joi.number().max(10).label("Rate").required(),
+    numberInStock: Joi.number().min(0).less(100).label("Stock").required(),
+    dailyRentalRate: Joi.number().min(0).max(10).label("Rate").required(),
   };
 
   onSubmitted() {
@@ -48,7 +65,6 @@ class NewTable extends MainForm {
   }
 
   render() {
-    console.log(this.state.data);
     return (
       <React.Fragment>
         <h1>ADD Section</h1>

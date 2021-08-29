@@ -7,11 +7,13 @@ import { Paginate } from "../utils/paginate";
 import { Link } from "react-router-dom";
 import Listgroup from "../commen/listGroup";
 import _ from "lodash";
+import { SearchField } from "./../commen/serachField";
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
     currentPage: 1,
+    data: { name: "" },
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
   };
@@ -21,13 +23,6 @@ class Movies extends Component {
       genres: [{ name: "All Genre" }, ...getGenres()],
     });
   }
-  onLike = (liked) => {
-    let movies = [...this.state.movies];
-    let index = movies.indexOf(liked);
-    movies[index] = { ...liked };
-    movies[index].like = !liked.like;
-    this.setState({ movies });
-  };
   deleteHandler = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
@@ -36,10 +31,29 @@ class Movies extends Component {
     this.setState({ currentPage: pageNum });
   };
   onGenres = (genre) => {
-    this.setState({ selectedItem: genre, currentPage: 1 });
+    this.setState({
+      selectedItem: genre,
+      currentPage: 1,
+    });
   };
   onSortColumn = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+  handleSearch = ({ currentTarget }) => {
+    const data = this.state.data;
+    data.name = currentTarget.value.trimStart();
+    this.setState({
+      data,
+      currentPage: 1,
+      selectedItem: "All Gernre" && undefined,
+    });
+  };
+  onLike = (liked) => {
+    let movies = [...this.state.movies];
+    let index = movies.indexOf(liked);
+    movies[index] = { ...liked };
+    movies[index].like = !liked.like;
+    this.setState({ movies });
   };
   render() {
     const stl = { backgroundColor: "gray", color: "white" };
@@ -47,27 +61,34 @@ class Movies extends Component {
       movies: allMovies,
       currentPage,
       pageSize,
+      data,
       selectedItem,
       sortColumn,
     } = this.state;
+
     const filterd =
       selectedItem && selectedItem._id
         ? allMovies.filter((m) => m.genre._id === selectedItem._id)
         : allMovies;
 
-    const sorted = _.orderBy(filterd, [sortColumn.path], [sortColumn.order]);
+    const filterSearch =
+      data.name === ""
+        ? filterd
+        : allMovies.filter((m) => !m.title.toLowerCase().search(data.name));
 
+    const sorted = _.orderBy(
+      filterSearch,
+      [sortColumn.path],
+      [sortColumn.order]
+    );
     const movies = Paginate(sorted, currentPage, pageSize);
-
-    const { length: count } = movies;
-
-    if (count === 0) return <p>Current there is no movies</p>;
+    const { length: count } = filterSearch;
     return (
       <div className="container">
         <p>
           Currently Showing{" "}
           <span className="badge badge-pill " style={stl}>
-            {filterd.length}
+            {filterSearch.length}
           </span>{" "}
           Movies in the Database
         </p>
@@ -78,22 +99,27 @@ class Movies extends Component {
               genres={this.state.genres}
               onGenres={this.onGenres}
               genreSelected={this.state.selectedItem}
+              data={data}
             />
           </div>
           <div className="col-sm">
-            <Link to="./movies/new" className="btn btn-primary m-2">
+            <Link to="./movies/new" className="btn btn-primary my-2">
               add movie
             </Link>
+
+            <SearchField data={data} handleSearch={this.handleSearch} />
+
             <MoviesTable
               movies={movies}
               onLike={this.onLike}
               sortColumn={sortColumn}
               deleteHandler={this.deleteHandler}
               onSortColumn={this.onSortColumn}
+              count={count}
             />
             <Pagination
               pageNum={this.state.pageSize}
-              pageItemCount={filterd.length}
+              pageItemCount={filterSearch.length}
               currentPage={this.state.currentPage}
               onSelectNum={this.onSelectNum}
             />

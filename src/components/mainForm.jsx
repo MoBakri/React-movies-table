@@ -40,7 +40,7 @@ class MainForm extends Component {
     const { data, errors } = this.state;
     return (
       <InputField
-        data={data[name]}
+        value={data[name]}
         handleChange={this.handleChange}
         name={name}
         label={label}

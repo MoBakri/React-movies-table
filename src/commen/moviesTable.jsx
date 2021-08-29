@@ -43,7 +43,7 @@ class MoviesTable extends Component {
         ),
       },
     ];
-    const { movies, sortColumn } = this.props;
+    const { movies, sortColumn, count } = this.props;
     return (
       <table className="table">
         <thead>
@@ -53,7 +53,7 @@ class MoviesTable extends Component {
             onSort={this.onSortItem}
           />
         </thead>
-        <TableBody data={movies} column={column} />
+        <TableBody data={movies} column={column} count={count} />
       </table>
     );
   }

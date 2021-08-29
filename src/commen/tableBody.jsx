@@ -7,19 +7,22 @@ class TableBody extends Component {
   };
 
   render() {
-    const { data, column } = this.props;
+    const { data, column, count } = this.props;
     return (
-      <tbody>
-        {data.map((item) => (
-          <tr key={item._id}>
-            {column.map((columnHead) => (
-              <td key={columnHead.path || columnHead.key}>
-                {this.columnContent(item, columnHead)}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+      <React.Fragment>
+        {count === 0 ? <p>Current there is no movies</p> : null}
+        <tbody>
+          {data.map((item) => (
+            <tr key={item._id}>
+              {column.map((columnHead) => (
+                <td key={columnHead.path || columnHead.key}>
+                  {this.columnContent(item, columnHead)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </React.Fragment>
     );
   }
 }
